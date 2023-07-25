@@ -32,9 +32,10 @@ jobs:
 
       - name: Assert the output
         run: |
-          expected="Output: my-binary-name is now available on PATH"
+          expected="Output: terrahelp_0.7.5_linux_amd64.tar.gz is now available on PATH"
           output=$(cat output.txt)
           if [ "$output" != "$expected" ]; then
             echo "Assertion failed. Expected: $expected, Got: $output"
             exit 1
           fi
+          ls -al bin
