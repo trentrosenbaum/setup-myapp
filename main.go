@@ -17,7 +17,7 @@ const (
 	owner        = "opencredo"
 	repo         = "terrahelp"
 	releaseTag   = "v0.7.5"
-	assetName    = "terrahelp"
+	assetName    = "terrahelp_0.7.5_linux_amd64.tar.gz"
 	binaryFolder = "bin"
 )
 
