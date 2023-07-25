@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     env:
-      GITHUB-TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
 
     steps:
