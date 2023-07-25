@@ -15,7 +15,7 @@ import (
 
 const (
 	owner        = "opencredo"
-	repo         = "https://github.com/opencredo/terrahelp/"
+	repo         = "terrahelp"
 	releaseTag   = "v0.7.5"
 	assetName    = "terrahelp"
 	binaryFolder = "bin"
