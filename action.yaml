@@ -1,0 +1,19 @@
+name: 'Setup App Action'
+description: 'Downloads a release from another GitHub repo and sets PATH'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+
+inputs:
+  github-token:
+    description: 'GitHub token for accessing the repository'
+    required: true
+
+outputs:
+  binary-path:
+    description: 'bin/my-binary-name'
+
+branding:
+  icon: 'package'
+  color: 'purple'
