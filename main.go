@@ -35,11 +35,8 @@ func main() {
 	)
 	tc := oauth2.NewClient(ctx, ts)
 
-	goos := os.Getenv("GOOS")
-	goarch := os.Getenv("GOARCH")
 	tag := strings.ReplaceAll(releaseTag, "v", "")
-
-	releaseAssetName := fmt.Sprintf("%s_%s_%s_%s.tar.gz", assetName, tag, goos, goarch)
+	releaseAssetName := fmt.Sprintf("%s_%s_%s_%s.tar.gz", assetName, tag, runtime.GOOS, runtime.GOARCH)
 
 	client := github.NewClient(tc)
 	assetURL, err := getReleaseAssetURL(ctx, client, owner, repo, releaseTag, releaseAssetName)
