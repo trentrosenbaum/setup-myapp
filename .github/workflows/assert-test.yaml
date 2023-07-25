@@ -21,7 +21,7 @@ jobs:
       - name: Build and run the Golang Action
         run: |
           make build
-          output=$(./my-golang-action)
+          output=$(./setup-myapp)
           echo "Output: $output" >> output.txt
 
       - name: Print output

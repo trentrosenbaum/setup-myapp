@@ -21,4 +21,4 @@ jobs:
     - name: Build and run the Golang Action
       run: |
         make build
-        ./my-golang-action
+        ./setup-myapp
