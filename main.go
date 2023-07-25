@@ -14,10 +14,10 @@ import (
 )
 
 const (
-	owner        = "owner"
-	repo         = "repo"
-	releaseTag   = "v1.0.0"
-	assetName    = "my-binary-name"
+	owner        = "opencredo"
+	repo         = "terrahelp"
+	releaseTag   = "v0.7.5"
+	assetName    = "terrahelp"
 	binaryFolder = "bin"
 )
 
