@@ -40,7 +40,7 @@ jobs:
           fi
       - name: Assert the Download
         run: |
-          if [ ! -f "bin/terrahelp_0.7.5_linux_amd64.tar.gz" ]; then
+          if [ ! -f "${{ GITHUB_WORKSPACE }}/bin/terrahelp_0.7.5_linux_amd64.tar.gz" ]; then
             echo "Assertion failed. File not found in bin"
             exit 1
           fi
