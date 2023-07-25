@@ -53,7 +53,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("%s is now available on PATH.\n", assetName)
+	fmt.Printf("%s is now available on PATH\n", assetName)
 }
 
 func getReleaseAssetURL(ctx context.Context, client *github.Client, owner, repo, releaseTag, assetName string) (string, error) {
