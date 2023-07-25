@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 
 	"github.com/google/go-github/v39/github"
 	"golang.org/x/oauth2"
@@ -17,7 +18,7 @@ const (
 	owner        = "opencredo"
 	repo         = "terrahelp"
 	releaseTag   = "v0.7.5"
-	assetName    = "terrahelp_0.7.5_linux_amd64.tar.gz"
+	assetName    = "terrahelp"
 	binaryFolder = "bin"
 )
 
@@ -34,8 +35,14 @@ func main() {
 	)
 	tc := oauth2.NewClient(ctx, ts)
 
+	goos := os.Getenv("GOOS")
+	goarch := os.Getenv("GOARCH")
+	tag := strings.ReplaceAll(releaseTag, "v", "")
+
+	releaseAssetName := fmt.Sprintf("%s_%s_%s_%s.tar.gz", assetName, tag, goos, goarch)
+
 	client := github.NewClient(tc)
-	assetURL, err := getReleaseAssetURL(ctx, client, owner, repo, releaseTag, assetName)
+	assetURL, err := getReleaseAssetURL(ctx, client, owner, repo, releaseTag, releaseAssetName)
 	if err != nil {
 		fmt.Printf("Error getting asset URL: %s\n", err)
 		os.Exit(1)
