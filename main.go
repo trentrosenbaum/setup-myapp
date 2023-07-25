@@ -82,6 +82,10 @@ func downloadReleaseAsset(ctx context.Context, client *github.Client, assetURL, 
 		return "", fmt.Errorf("failed to download asset: %s", resp.Status)
 	}
 
+	err = os.MkdirAll(destFolder, os.ModePerm)
+	if err != nil {
+		return "", err
+	}
 	binaryPath := filepath.Join(destFolder, assetName)
 	out, err := os.Create(binaryPath)
 	if err != nil {
