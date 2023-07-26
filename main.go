@@ -173,7 +173,7 @@ func addBinaryToPath(client *github.Client, binaryFolder string) error {
 	}
 
 	// Add the binary folder to PATH
-	cmd := exec.Command("echo", fmt.Sprintf("$HOME/%s >> $GITHUB_PATH", binaryFolder))
+	cmd := exec.Command("echo", fmt.Sprintf("$GITHUB_WORKSPCE/%s", binaryFolder), ">>", "$GITHUB_PATH")
 	_, err := cmd.Output()
 	if err != nil {
 		return err
