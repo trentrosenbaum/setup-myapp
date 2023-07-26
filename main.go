@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -59,7 +60,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = addBinaryToPath(binaryFolder)
+	err = addBinaryToPath(client, binaryFolder)
 	if err != nil {
 		fmt.Printf("Error setting PATH: %s\n", err)
 		os.Exit(1)
@@ -166,13 +167,14 @@ func unpackTarGz(filePath string) error {
 	return nil
 }
 
-func addBinaryToPath(binaryFolder string) error {
+func addBinaryToPath(client *github.Client, binaryFolder string) error {
 	if runtime.GOOS == "windows" {
 		return fmt.Errorf("setting PATH is not supported on Windows yet")
 	}
 
 	// Add the binary folder to PATH
-	err := os.Setenv("PATH", fmt.Sprintf("%s:%s", os.Getenv("PATH"), binaryFolder))
+	cmd := exec.Command("echo", fmt.Sprintf("$HOME/%s >> $GITHUB_PATH", binaryFolder))
+	_, err := cmd.Output()
 	if err != nil {
 		return err
 	}
