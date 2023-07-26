@@ -51,7 +51,7 @@ jobs:
           
           expected="terrahelp version 0.7.5"
           binary_output=$(terrahelp --version)
-          if [ "binary_output" != "$expected" ]; then
+          if [ "$binary_output" != "$expected" ]; then
             echo "Assertion failed. Expected: $expected, Got: $binary_output"
             exit 1
           fi
