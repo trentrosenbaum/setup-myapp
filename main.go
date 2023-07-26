@@ -1,6 +1,8 @@
 package main
 
 import (
+	"archive/tar"
+	"compress/gzip"
 	"context"
 	"fmt"
 	"io"
@@ -48,6 +50,12 @@ func main() {
 	binaryPath, err := downloadReleaseAsset(ctx, client, assetURL, binaryFolder, assetName)
 	if err != nil {
 		fmt.Printf("Error downloading release asset: %s\n", err)
+		os.Exit(1)
+	}
+
+	err = unpackTarGz(binaryPath)
+	if err != nil {
+		fmt.Printf("Error unpacking release asset: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -103,6 +111,59 @@ func downloadReleaseAsset(ctx context.Context, client *github.Client, assetURL, 
 	}
 
 	return "", nil
+}
+
+func unpackTarGz(filePath string) error {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return fmt.Errorf("failed to open file: %s", err)
+	}
+	defer file.Close()
+
+	gzr, err := gzip.NewReader(file)
+	if err != nil {
+		return fmt.Errorf("failed to create gzip reader: %s", err)
+	}
+	defer gzr.Close()
+
+	tr := tar.NewReader(gzr)
+	for {
+		header, err := tr.Next()
+		if err == io.EOF {
+			break // End of archive
+		}
+		if err != nil {
+			return fmt.Errorf("failed to read tar header: %s", err)
+		}
+
+		destPath := filepath.Join(filepath.Dir(filePath), header.Name)
+		switch header.Typeflag {
+		case tar.TypeDir:
+			// Create directory if it doesn't exist
+			if err := os.MkdirAll(destPath, os.ModePerm); err != nil {
+				return fmt.Errorf("failed to create directory: %s", err)
+			}
+		case tar.TypeReg:
+			// Create parent directory if it doesn't exist
+			if err := os.MkdirAll(filepath.Dir(destPath), os.ModePerm); err != nil {
+				return fmt.Errorf("failed to create parent directory: %s", err)
+			}
+
+			// Create the file
+			unzippedFile, err := os.Create(destPath)
+			if err != nil {
+				return fmt.Errorf("failed to create file: %s", err)
+			}
+			defer unzippedFile.Close()
+
+			// Copy contents from tar file to the destination file
+			if _, err := io.Copy(unzippedFile, tr); err != nil {
+				return fmt.Errorf("failed to copy file contents: %s", err)
+			}
+		}
+	}
+
+	return nil
 }
 
 func addBinaryToPath(binaryPath string) error {
