@@ -47,6 +47,8 @@ jobs:
           fi
       - name: Assert the binary output
         run: |
+          echo "Path: $PATH"
+          
           expected="terrahelp version 0.7.5"
           binary_output=$(terrahelp --version)
           if [ "binary_output" != "$expected" ]; then
