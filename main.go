@@ -59,7 +59,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = addBinaryToPath(binaryPath)
+	err = addBinaryToPath(binaryFolder)
 	if err != nil {
 		fmt.Printf("Error setting PATH: %s\n", err)
 		os.Exit(1)
@@ -166,7 +166,7 @@ func unpackTarGz(filePath string) error {
 	return nil
 }
 
-func addBinaryToPath(binaryPath string) error {
+func addBinaryToPath(binaryFolder string) error {
 	if runtime.GOOS == "windows" {
 		return fmt.Errorf("setting PATH is not supported on Windows yet")
 	}
