@@ -47,7 +47,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	binaryPath, err := downloadReleaseAsset(ctx, client, assetURL, binaryFolder, assetName)
+	binaryPath, err := downloadReleaseAsset(ctx, client, assetURL, binaryFolder, releaseAssetName)
 	if err != nil {
 		fmt.Printf("Error downloading release asset: %s\n", err)
 		os.Exit(1)
@@ -110,7 +110,7 @@ func downloadReleaseAsset(ctx context.Context, client *github.Client, assetURL, 
 		return "", err
 	}
 
-	return "", nil
+	return binaryPath, nil
 }
 
 func unpackTarGz(filePath string) error {
